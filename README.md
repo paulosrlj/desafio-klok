@@ -18,7 +18,7 @@
 
 ### ✅ Acessar o swagger
 -> Entrar no endereço <code>http://localhost:8080/swagger-ui/index.html</code> para a <code>api-adesoes</code><br>
--> Entrar no endereço <code>http://localhost:8080/swagger-ui/index.html</code> para a <code>cobranca-consumer-api</code><br>
+-> Entrar no endereço <code>http://localhost:8090/swagger-ui/index.html</code> para a <code>cobranca-consumer-api</code><br>
 
 ### ✅ Acessar as rotas
 

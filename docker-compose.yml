@@ -1,60 +1,29 @@
-version: '3'
 services:
   postgres_main:
-    image: postgres:14.2-alpine
+    image: postgres
     ports:
-      - 5432:5432
+      - "5433:5432"
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: "api_adesoes"
     volumes:
-      - /home/paulo/Documentos/postgres_data:/var/lib/postgresql/data
+      - /usr/local/postgres_producer_data:/var/lib/postgresql/data
     networks:
       - postgres-compose-network
-    # healthcheck:
-    #     test: ["CMD", "curl", "-f", "http://localhost:5433"]
-    #     interval: 30s
-    #     timeout: 10s
-    #     retries: 5
 
-  api_adesoes:
-    image: klok/api-adesoes
-    build: .
-    ports: 
-      - 8080:8080
-    networks:
-      - postgres-compose-network
-    depends_on:
-      - "postgres_main"
-      - "rabbitmq_main"
-    restart: on-failure
+  postgres_consumer:
+    image: postgres
+    ports:
+      - "5434:5432"
     environment:
-      POSTGRES_URL: postgresql://postgres_main:5432/api_adesoes
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-    # environment:
-    #   # - spring_datasource_url=jdbc:postgresql://postgres_main/api_adesoes?user=postgres&password=postgres
-    #   # - spring_rabbitmq_host=postgres_main
-    #   # - spring_rabbitmq_port=5432
-    #   POSTGRES_URL=jdbc:postgresql://postgres_main/api_adesoes?user=postgres&password=postgres
-    #   # - POSTGRES_DB=api_adesoes
-      
-    links:
-      - postgres_main
-
-  # postgres_consumer:
-  #   image: postgres
-  #   ports:
-  #     - "5433:5432"
-  #   environment:
-  #     POSTGRES_USER: "postgres"
-  #     POSTGRES_PASSWORD: "postgres"
-  #     POSTGRES_DB: "cobrancas_consumer"
-  #   volumes:
-  #     - /home/paulo/Documentos/postgres_data:/var/lib/postgresql/data
-  #   networks:
-  #     - postgres-compose-network
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+      POSTGRES_DB: "cobrancas_consumer"
+    volumes:
+      - /usr/local/postgres_consumer_data:/var/lib/postgresql/data
+    networks:
+      - postgres-compose-network
 
   pgadmin_main:
     image: dpage/pgadmin4
